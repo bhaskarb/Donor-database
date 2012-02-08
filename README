@@ -1,0 +1,2 @@
+This uses the google app engine infrastructure to build a donor-donator database
+It allows users to specify a project and then add/select a list of donors/donators
