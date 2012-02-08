@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/stylesheets/tabs.css" type="text/css">
+<script type="text/javascript" src="/stylesheets/script.js"></script>
+<title>Steward Page</title>
+</head>
+
+<body>
+<h1> Project Steward: {{ user_name }}</h1>
+<ol id="toc">
+<li id="donor_div_li" class="current"><a href="#donor_div" onclick="showHideTab('donor_div')"><span>New Donor</span></a></li>
+<li id="recep_div_li"><a href="#recep_div" onclick="showHideTab('recep_div')"><span>New Recipient</span></a></li>
+<li id="donation_div_li"><a href="#donation_div" onclick="showHideTab('donation_div')"><span>Donation</span></a></li>
+<li id="category_div_li"><a href="#category_div" onclick="showHideTab('category_div')"><span>Add Category</span></a></li>
+<li id="vdonors_div_li"><a href="#vdonors_div" onclick="showHideTab('vdonors_div')"><span>View All</span></a></li>
+</ol>
+
+
+<div class="donor_div" id="donor_div" style="display:inherit">
+<h1>Donor add page</h1>
+<p>A donor is recognised by his email address in the database.
+Once the donor has been added select the donation tab to add donations for this donor</p>
+<p></p>
+<form id="donoradd" method="post" action="/newdonor">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td>Email Address</td>
+<td><input name="donor_email" type="text"></td>
+</tr>
+<tr>
+<td>First Name</td>
+<td><input name="donor_fname" type="text"></td>
+</tr>
+<tr>
+<td>Middle Name</td>
+<td><input name="donor_mname" type="text"></td>
+</tr>
+<tr>
+<td>Last Name</td>
+<td><input name="donor_lname" type="text"></td>
+</tr>
+<tr>
+<td>Category</td>
+<td>
+<select multiple name="donor_cat">
+	{% for cat in cats %}
+
+	<option value = "{{ cat.Name }}">{{ cat.Name }}</option>
+
+	{% endfor %}
+</select>
+</td>
+</tr>
+</tbody>
+</table>
+<input value="Add Donor" type="submit">
+</form>
+</div>
+
+
+<div class="recep_div" id="recep_div" style="display:none">
+<h2>Recipient add page</h2>
+<p>A recipient is recognised by his email address in
+the database.
+Once the recipient has been added select
+the donation tab to add donations to this recipient</p>
+<p></p>
+<form id="recepadd" method="post" action="/newrecep">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td>First Name</td>
+<td><input name="recep_name" type="text"></td>
+</tr>
+<tr>
+<td>Type of Recipient</td>
+<td><input name="recep_type" type="text"></td?
+</tr>
+<tr>
+<td>Description></td>
+<td><textarea cols="40" rows="4" name="recep_desc"></textarea></td>
+</tr>
+<tr>
+<td>Project</td>
+<td><select name="recep_proj">
+{% for project in projects %}
+   <option value = "{{ project.Name }}">{{ project.Name }}</option>
+{% endfor %}
+</select></td>
+</tr>
+</tbody>
+</table>
+<input value="Add recipient" type="submit">
+</a></form>
+</div>
+
+
+<div class="donation_div" id="donation_div"  style="display:none">
+<h2>Donation add page</h2>
+<p>Select from the list of donors and the list of
+recipients and
+add donations
+</p>
+<p></p>
+<form id="donationadd" method="post" action="/newdonation">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td>Donor</td>
+<td><select name="donation_donor">
+{% for donor in donors %}
+<option value="{{ donor.Email}}">{{ donor.Email }}</option>
+{% endfor %}
+</td>
+</tr>
+<tr>
+<td>Recipient</td>
+<td><select name="donation_recep">
+{% for recep in receps %}
+<option value="{{ recep.Name}}">{{ recep.Name }}</option>
+{% endfor %}
+</td>
+</tr>
+<tr>
+<td>Amount in USD</td>
+<td><input type="text" name="donation_amount"></td>
+</tr>
+<tr>
+<td>Start Date</td>
+<td><input type="text" name="donation_startd"></td>
+</tr>
+<tr>
+<td>End Date</td>
+<td><input type="text" name="donation_endd"></td>
+</tr>
+<tr>
+<td>Comments</td>
+<td><textarea cols="40" rows="4" name="donation_comments"></textarea></td>
+</tr>
+</tbody>
+</table>
+<input value="Add Donation" type="submit"></a></form>
+</div>
+
+
+<div class="category_div" id="category_div"  style="display:none">
+<h2>Cateory add page</h2>
+<p>Add a list of categories, these are a global list
+which donors may support example: Teacher Salary, Construction, Food etc
+</p>
+<p></p>
+<form id="catadd" method="post" action="/newcat">
+<p>Category Name<input name="cat_name" type="text"></p>
+<input value="Add Category" type="submit">
+</form>
+</div>
+
+<div class="vdonors_div" id="vdonors_div"  style="display:none">
+<h2>View All</h2>
+<h3>All Donors</h3>
+<p></p>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr> 
+<td>Donor Email</td><td>Active</td>
+</tr>
+{% for donor in donors %}
+<td> {{ donor.Email }} </td>
+<td> {{ donor.IsActive }} </td>
+{% endfor %}
+</tbody>
+</table>
+<hr/>
+<h3>All Recipients</h3>
+<p></p>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr> 
+<td>Recipient Name</td><td>Supported</td>
+</tr>
+{% for recep in receps %}
+<td> {{ recep.Name }} </td>
+<td> {{ recep.IsSupported }} </td>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+
+
+</div>
+<hr/>
+<div name="log">
+<p>Last Action:  <i>{{ logmsg }}</i><p>
+<hr/>
+<p><a href="{{ logout }}">Logout</a><p>
+</div>
+</body></html>

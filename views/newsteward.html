@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>New Steward</title>
+
+</head><body>
+<h1>Welcome Steward {{ user_name }}</h1>
+First you need to pick a project which you belong to. Once that is
+done, it should be possible to enter
+donors/recipients/donation/categories for the project concerned<br>
+<br>
+<br>
+<form id="newproj" action="/newproj" method="post">
+<table style="text-align: left; width: 100%;" border="0" cellpadding="1" cellspacing="1">
+<tbody>
+</tr>
+<tr>
+<td>Project Name</td>
+<td><input name="proj_name"></td>
+</tr>
+<tr>
+<td>Location</td>
+<td><input name="proj_loc"></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><textarea cols="40" rows="4" name="proj_desc"></textarea></td>
+</tr>
+<tr>
+<td><input value="Submit" type="submit"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</form>
+</body></html>
